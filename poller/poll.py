@@ -38,7 +38,7 @@ for i in range(len(overallSortedEntries)):
     else:
         overallSortedEntries[i]['rank'] = i+1
 
-overallScoreboard = {'problems': overallProblems, 'entries': overallEntries}
+overallScoreboard = {'problems': overallProblems, 'entries': overallSortedEntries}
 
 with open(config['output'], 'w') as output_file:
     output_file.write(json.dumps(overallScoreboard))
