@@ -56,10 +56,16 @@ function refreshScoreboardEntries(entries) {
     }
 }
 
+function updateTimestamp(lastUpdateTime) {
+    $('#lastUpdateTime').html(lastUpdateTime);
+}
+
 function refreshScoreboard(scoreboard) {
     if (problemsChanged(scoreboard['problems'])) {
         refreshScoreboardProblems(scoreboard['problems']);
     }
 
     refreshScoreboardEntries(scoreboard['entries']);
+
+    updateTimestamp(scoreboard['lastUpdateTime']);
 }

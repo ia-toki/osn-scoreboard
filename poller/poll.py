@@ -10,6 +10,7 @@ config = parser['DEFAULT']
 
 overallProblems = []
 overallEntries = {}
+lastUpdateTime = ''
 
 with open(config['contestants']) as contestants_file:
     reader = csv.reader(contestants_file)
@@ -20,7 +21,10 @@ with open(config['contestants']) as contestants_file:
 for contestJid in config['contestJids'].split(','):
     data = urllib.parse.urlencode({'secret' : config['secret'], 'contestJid' : contestJid, 'type' : config['type']})
     con = urllib.request.urlopen(config['url'], data.encode('utf-8'))
-    scoreboard = json.loads(con.read().decode('utf-8'))['scoreboard']
+    response = json.loads(con.read().decode('utf-8'))
+    scoreboard = response['scoreboard']
+    lastUpdateTime = response['lastUpdateTime']
+
     con.close()
 
     overallProblems.extend(scoreboard['config']['problemAliases'])
@@ -38,7 +42,7 @@ for i in range(len(overallSortedEntries)):
     else:
         overallSortedEntries[i]['rank'] = i+1
 
-overallScoreboard = {'problems': overallProblems, 'entries': overallSortedEntries}
+overallScoreboard = {'problems': overallProblems, 'entries': overallSortedEntries, 'lastUpdateTime': lastUpdateTime}
 
 with open(config['output'], 'w') as output_file:
     output_file.write(json.dumps(overallScoreboard))
