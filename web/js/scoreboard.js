@@ -109,6 +109,19 @@ function moveUp(jid) {
     }
 }
 
+function entryChanged(entry1, entry2) {
+    if (entry1['totalScores'] != entry2['totalScores']) {
+        return true;
+    }
+
+    for (var i = 0; i < entry1['scores'].length; i++) {
+        if (entry1['scores'][i] != entry2['scores'][i]) {
+            return true;
+        }
+    }
+    return false;
+}
+
 function updateScoreboardEntry(entriesByJid, i) {
     if (i == 0) {
         return;
@@ -117,6 +130,11 @@ function updateScoreboardEntry(entriesByJid, i) {
     var jid = currentScoreboard['entries'][i]['jid'];
     var destJid = null;
 
+    if (!entryChanged(entriesByJid[jid], entriesMap[jid])) {
+        updateScoreboardEntry(entriesByJid, i-1);
+        return;
+    }
+
     while (prevMap[jid] != null && isGreater(entriesByJid[jid], entriesMap[prevMap[jid]])) {
         destJid = prevMap[jid];
         moveUp(jid);
@@ -124,15 +142,16 @@ function updateScoreboardEntry(entriesByJid, i) {
 
     entriesMap[jid] = entriesByJid[jid];
 
-    if (destJid != null) {
-        var row = rowsMap[jid];
-        var destRow = rowsMap[destJid];
 
+    var row = rowsMap[jid];
+    var destRow = rowsMap[destJid];
+
+    var newRow = createRow(entriesByJid[jid]);
+    rowsMap[jid] = newRow;
+
+    if (destJid != null) {
         row.fadeOut(500, function() {
             row.remove();
-
-            var newRow = createRow(entriesByJid[jid]);
-            rowsMap[jid] = newRow;
 
             newRow.hide();
             newRow.insertBefore(destRow);
@@ -142,9 +161,13 @@ function updateScoreboardEntry(entriesByJid, i) {
             }, 100);
         });
     } else {
-        setTimeout(function() {
-           updateScoreboardEntry(entriesByJid, i-1);
-        }, 100);
+        row.fadeOut(500, function() {
+            row.replaceWith(newRow);
+            row.fadeIn(500);
+            setTimeout(function() {
+                updateScoreboardEntry(entriesByJid, i-1);
+            }, 100);
+        });
     }
 }
 
