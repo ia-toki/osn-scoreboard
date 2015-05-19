@@ -44,5 +44,6 @@ for i in range(len(overallSortedEntries)):
 
 overallScoreboard = {'problems': overallProblems, 'entries': overallSortedEntries, 'lastUpdateTime': lastUpdateTime}
 
-with open(config['output'], 'w') as output_file:
-    output_file.write(json.dumps(overallScoreboard))
+data = urllib.parse.urlencode({'scoreboard' : json.dumps(overallScoreboard)})
+con = urllib.request.urlopen(config['pushUrl'], data.encode('utf-8'))
+con.close()
