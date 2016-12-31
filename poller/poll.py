@@ -21,7 +21,7 @@ def fetch_scoreboard():
             overallEntries[jid] = {'jid': jid, 'name': name, 'school': school, 'province': province, 'totalScores': 0, 'scores': [], 'rank': 0}
 
     for contestJid in config['contestJids'].split(','):
-        data = urllib.parse.urlencode({'secret' : config['apiSecret'], 'contestJid' : contestJid, 'type' : config['type']})
+        data = urllib.parse.urlencode({'secret' : config['apiSecret'], 'containerJid' : contestJid, 'type' : config['type']})
         con = urllib.request.urlopen(config['apiUrl'], data.encode('utf-8'))
         response = json.loads(con.read().decode('utf-8'))
         scoreboard = response['scoreboard']
