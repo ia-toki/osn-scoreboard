@@ -23,7 +23,7 @@ Poller setup
     - Set type to OFFICIAL or FROZEN.
     - Set contestJids to comma-separated list of contest jids (e.g., day 1 contest and day 2 contest).
 
-- Run `python3 poll.py`.
+- Run `python3 poll.py` or setup supervisord using the provided `scoreboard_poller.conf` file (don't forget to edit directory and command in the .conf file).
 
 Receiver & server setup
 -----------------------

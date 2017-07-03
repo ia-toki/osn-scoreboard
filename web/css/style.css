@@ -15,6 +15,10 @@ h1 {
     margin-right: 5px;
 }
 
+.logo.horizontal {
+    height: 38px;
+}
+
 .col-rank {
     width: 30px;
 }
@@ -23,7 +27,7 @@ h1 {
 }
 
 .col-school {
-    width: 270px;
+    width: 320px;
 }
 
 .col-province {

@@ -1,4 +1,5 @@
-var serverUrl = 'http://localhost:9200/server.php';
+var serverUrl = 'http://scoreboard-host/server.php';
+var fetchScoreboardInterval = 2000;
 
 var currentScoreboard = { 'problems': [], 'entries': [] };
 
@@ -10,13 +11,13 @@ var nextMap = {};
 function fetchScoreboard() {
     $.get(serverUrl, function(data) {
         refreshScoreboard(JSON.parse(data));
-        setTimeout(fetchScoreboard, 2000);
+        setTimeout(fetchScoreboard, fetchScoreboardInterval);
     });
 }
 
 function problemsChanged(problems) {
     var currentProblems = currentScoreboard['problems'];
-    if (problems.length != currentProblems.length) {
+    if (problems.length == 0 || problems.length != currentProblems.length) {
         return true;
     }
 
