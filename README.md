@@ -1,5 +1,5 @@
-OSN 2015 Scoreboard
-===================
+OSN Scoreboard
+==============
 
 Concepts
 --------
