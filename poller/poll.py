@@ -1,12 +1,18 @@
+#!/usr/bin/env python3
+
 import csv
 import urllib.request
 import urllib.parse
 import json
 import configparser
 import time
+import sys
+
+scoreboard_fetch_interval = 10
+config_path = 'config.ini'
 
 parser = configparser.ConfigParser()
-parser.read('config.ini')
+parser.read(config_path)
 config = parser['DEFAULT']
 
 def fetch_scoreboard():
@@ -26,7 +32,7 @@ def fetch_scoreboard():
         response = json.loads(con.read().decode('utf-8'))
         scoreboard = response['scoreboard']
         lastUpdateTime = response['lastUpdateTime']
-
+       
         con.close()
 
         overallProblems.extend(scoreboard['config']['problemAliases'])
@@ -53,6 +59,8 @@ def fetch_scoreboard():
 while True:
     try:
         fetch_scoreboard()
-        time.sleep(10)
     except:
-        pass
+        print('Failed fetching scoreboard:', str(sys.exc_info()))
+    finally:
+        time.sleep(scoreboard_fetch_interval))
+
