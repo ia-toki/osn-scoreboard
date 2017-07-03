@@ -37,17 +37,22 @@ function refreshScoreboardProblems(problems) {
     }
 }
 
+function calculateScoreColor(score, problemCount) {
+	var hue = score * 120.0 / (100.0 * problemCount);
+	return 'hsl(' + hue.toString() + ', 80%, 60%)';
+}
+
 function createRow(entry) {
     var tr = $('<tr>');
     tr.append($('<td>').html(entry['rank']));
     tr.append($('<td>').html(entry['name']));
     tr.append($('<td>').html(entry['school']));
     tr.append($('<td>').html(entry['province']));
-    tr.append($('<td>').html(entry['totalScores']));
+    tr.append($('<td>').html(entry['totalScores']).css({'background-color': calculateScoreColor(entry['totalScores'], currentProblems.length)}));
 
     for (var j = 0; j < entry['scores'].length; j++) {
         var score = entry['scores'][j];
-        tr.append($('<td>').html(score));
+        tr.append($('<td>').html(score).css({'background-color': calculateScoreColor(score, 1)}));
     }
 
     return tr;
