@@ -1,4 +1,4 @@
-var serverUrl = 'http://osn2017scoreboard.ia-toki.org/server.php';
+var serverUrl = 'http://scoreboard-host/server.php';
 var fetchScoreboardInterval = 2000;
 
 var currentScoreboard = { 'problems': [], 'entries': [] };

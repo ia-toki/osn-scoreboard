@@ -32,7 +32,7 @@ def fetch_scoreboard():
         response = json.loads(con.read().decode('utf-8'))
         scoreboard = response['scoreboard']
         lastUpdateTime = response['lastUpdateTime']
-       
+
         con.close()
 
         overallProblems.extend(scoreboard['config']['problemAliases'])
